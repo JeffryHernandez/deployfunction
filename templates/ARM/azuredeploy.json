@@ -1,0 +1,96 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "functionNamePrefix": {
+            "defaultValue": "func-deploy-iac-",
+            "type": "String"
+        },
+        "serverfarms_ASP_name": {
+            "defaultValue": "ASP-Win-Net5-demo",
+            "type": "String"
+        },
+        "storageNamePrefix": {
+            "defaultValue": "stfsdemoiac",
+            "type": "String"
+        },
+        "repoUrl": {
+            "defaultValue": "",
+            "type": "String"
+        }
+    },
+    "variables": {
+        "storageAccounts_name": "[concat(toLower(parameters('storageNamePrefix')), uniqueString(resourceGroup().id))]",
+        "function_app_name": "[concat(toLower(parameters('functionNamePrefix')), uniqueString(resourceGroup().id))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2018-02-01",
+            "name": "[parameters('serverfarms_ASP_name')]",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "Y1",
+                "tier": "Dynamic",
+                "size": "Y1",
+                "family": "Y",
+                "capacity": 0
+            },
+            "properties": {
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2021-01-01",
+            "name": "[variables('storageAccounts_name')]",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage"
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2018-11-01",
+            "name": "[variables('function_app_name')]",
+            "location": "[resourceGroup().location]",
+            "kind": "functionapp",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccounts_name'))]"
+            ],
+            "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_name'))]",
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                        "name": "AzureWebJobsStorage",
+                        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccounts_name'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccounts_name')), '2019-06-01').keys[0].value)]"
+                        },
+                        {
+                        "name": "FUNCTIONS_EXTENSION_VERSION",
+                        "value": "~3"
+                        }
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "type": "sourcecontrols",
+                    "apiVersion": "2020-09-01",
+                    "name": "web",
+                    "location": "[resourceGroup().location]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/sites', variables('function_app_name'))]"
+                    ],
+                    "properties": {
+                        "repoUrl": "[parameters('repoUrl')]",
+                        "branch": "main",
+                        "isManualIntegration": true
+                    }
+                }
+            ]
+        }
+    ]
+}
