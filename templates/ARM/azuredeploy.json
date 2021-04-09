@@ -15,7 +15,7 @@
             "type": "String"
         },
         "repoUrl": {
-            "defaultValue": "",
+            "defaultValue": "https://github.com/fsaleemm/deployfunction.git",
             "type": "String"
         }
     },
