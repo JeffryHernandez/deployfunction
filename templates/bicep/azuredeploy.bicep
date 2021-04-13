@@ -71,6 +71,6 @@ resource function_app_name_web 'Microsoft.Web/sites/sourcecontrols@2020-09-01' =
   properties: {
     repoUrl: repoUrl
     branch: 'main'
-    isManualIntegration: true
+    isManualIntegration: false
   }
 }
