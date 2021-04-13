@@ -102,7 +102,7 @@
                     "properties": {
                         "repoUrl": "[parameters('repoUrl')]",
                         "branch": "main",
-                        "isManualIntegration": false
+                        "isManualIntegration": true
                     }
                 }
             ]
