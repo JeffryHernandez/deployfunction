@@ -1,6 +1,6 @@
-param functionNamePrefix string = 'func-deploy-iac-'
-param serverfarms_ASP_name string = 'ASP-Win-Net5-demo'
-param storageNamePrefix string = 'stfsdemoiac'
+param functionNamePrefix string = 'func-b-deploy-'
+param serverfarms_ASP_name string = 'ASP-Win-Net5-bdemo'
+param storageNamePrefix string = 'stfsbdemo'
 param repoUrl string = 'https://github.com/fsaleemm/deployfunction.git'
 
 var storageAccounts_name_var = concat(toLower(storageNamePrefix), uniqueString(resourceGroup().id))

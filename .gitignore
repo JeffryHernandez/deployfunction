@@ -265,3 +265,11 @@ __pycache__/
 
 # VS Code
 .vscode
+
+# Terraform
+*.tfstate
+*.tfstate.*.backup
+*.tfstate.backup
+*.tfvars
+.terraform/
+*.lock.*

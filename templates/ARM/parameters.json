@@ -3,13 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "serverfarms_ASP_name": {
-            "value": "ASP-Win-Net5-demo"
+            "value": "ASP-Win-Net5-armdemo"
         },
         "functionNamePrefix": {
-            "value": "func-deploy-iac-"
+            "value": "func-arm-deploy-"
         },
         "storageNamePrefix": {
-            "value": "stfsdemoiac"
+            "value": "stfsarmdemo"
         },
         "repoUrl": {
             "value": "https://github.com/fsaleemm/deployfunction.git"
