@@ -26,7 +26,7 @@ namespace FS.Demo
             name = name ?? data?.name;
 
             string responseMessage = string.IsNullOrEmpty(name)
-                ? "Responding to your Ping with Pong! Ha Ha Ping Pong!"
+                ? "Responding to your Ping with Pong!"
                 : $"Hello, {name}. This HTTP triggered function executed successfully.";
 
             return new OkObjectResult(responseMessage);
