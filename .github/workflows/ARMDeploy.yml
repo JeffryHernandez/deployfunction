@@ -26,7 +26,7 @@ jobs:
           if $(az group exists --name ${{ env.ResourceGroupName }}) ; then
             echo "Azure resource group already exists, skipping creation..."
           else
-            az group create --name ${{ env.ResourceGroupName }} --location ${{ env.ResourceGroupLocation }}
+            az group create --resource-group ${{ env.ResourceGroupName }} --location ${{ env.ResourceGroupLocation }}
             echo "Azure resource group created"
           fi
     - uses: azure/arm-deploy@v1
