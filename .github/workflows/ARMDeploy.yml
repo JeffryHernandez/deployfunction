@@ -12,8 +12,8 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
-      ResourceGroupName: rg-arm-funcdeploy
-      ResourceGroupLocation: "centralus"
+      ResourceGroupName: jhernandez-rg
+      ResourceGroupLocation: "usgovvirginia"
     steps:
     - uses: actions/checkout@master
     - uses: azure/login@v1
