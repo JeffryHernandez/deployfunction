@@ -11,14 +11,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    env:
-      ResourceGroupName: jhernandez-rg
-      ResourceGroupLocation: "usgovvirginia"
     steps:
     - uses: actions/checkout@master
-    - uses: azure/login@v1
-      with:
-        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
     - uses: Azure/CLI@v1
       with:
         inlineScript: |
@@ -31,6 +25,4 @@ jobs:
           fi
     - uses: azure/arm-deploy@v1
       with:
-        resourceGroupName: ${{ env.ResourceGroupName }}
-        template: ./templates/ARM/azuredeploy.json
-        parameters: ./templates/ARM/parameters.json
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
